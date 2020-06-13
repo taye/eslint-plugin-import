@@ -17,10 +17,17 @@ This rule supports the following options:
 
 `bundledDependencies`: If set to `false`, then the rule will show an error when `bundledDependencies` are imported. Defaults to `true`.
 
+`ignore`: An array of globs which will diable this rule for imports of matching values.
+
 You can set the options like this:
 
 ```js
-"import/no-extraneous-dependencies": ["error", {"devDependencies": false, "optionalDependencies": false, "peerDependencies": false}]
+"import/no-extraneous-dependencies": ["error", {
+  "devDependencies": false,
+  "optionalDependencies": false,
+  "peerDependencies": false,
+  "ignore": ['missing-dep/**']
+  }]
 ```
 
 You can also use an array of globs instead of literal booleans:
@@ -99,6 +106,10 @@ var isArray = require('lodash.isarray');
 /* eslint import/no-extraneous-dependencies: ["error", {"bundledDependencies": false}] */
 import foo from '"@generated/foo"';
 var foo = require('"@generated/foo"');
+
+/* eslint import/no-extraneous-dependencies: ["error", {"ignore": ["missing-dep/**"]}] */
+import bar from 'missing-dep';
+var bar = require('missing-dep');
 ```
 
 

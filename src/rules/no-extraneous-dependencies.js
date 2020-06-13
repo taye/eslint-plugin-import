@@ -110,6 +110,10 @@ function optDepErrorMessage(packageName) {
 }
 
 function reportIfMissing(context, deps, depsOptions, node, name) {
+  if (testConfig(depsOptions.ignore, name)) {
+    return
+  }
+
   // Do not report when importing types
   if (node.importKind === 'type') {
     return
@@ -182,6 +186,7 @@ module.exports = {
           'peerDependencies': { 'type': ['boolean', 'array'] },
           'bundledDependencies': { 'type': ['boolean', 'array'] },
           'packageDir': { 'type': ['string', 'array'] },
+          'ignore': { 'type': 'array' },
         },
         'additionalProperties': false,
       },
@@ -198,6 +203,7 @@ module.exports = {
       allowOptDeps: testConfig(options.optionalDependencies, filename) !== false,
       allowPeerDeps: testConfig(options.peerDependencies, filename) !== false,
       allowBundledDeps: testConfig(options.bundledDependencies, filename) !== false,
+      ignore: options.ignore,
     }
 
     return moduleVisitor(node => {

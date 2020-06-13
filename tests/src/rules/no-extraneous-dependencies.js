@@ -119,6 +119,14 @@ ruleTester.run('no-extraneous-dependencies', rule, {
       code: 'import foo from "@generated/foo"',
       options: [{packageDir: packageDirBundledDepsRaceCondition}],
     }),
+    test({
+      code: 'import "not-a-dependency"',
+      options: [{ignore: ['not-a-dependency']}],
+    }),
+    test({
+      code: 'import "not-a-dependency/foo"',
+      options: [{ignore: ['not-a-dependency/**']}],
+    }),
     test({ code: 'export function getToken() {}' }),
     test({ code: 'export class Component extends React.Component {}' }),
     test({ code: 'export function Component() {}' }),
